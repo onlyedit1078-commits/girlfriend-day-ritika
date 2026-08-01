@@ -1,46 +1,44 @@
-function playMusic() {
-    const music = document.getElementById("music");
+const music = document.getElementById("music");
 
-    music.play().catch(() => {
-        console.log("Autoplay blocked by browser");
-    });
+function playMusic() {
+    if (music) {
+        music.play().catch(() => {});
+    }
 }
 
-window.onload = function () {
-    playMusic();
+document.addEventListener("click", playMusic, { once: true });
 
-    const hearts = document.querySelector(".hearts");
+setInterval(() => {
+    const heart = document.createElement("div");
 
-    setInterval(() => {
-        const heart = document.createElement("div");
+    heart.innerHTML = "💖";
 
-        heart.innerHTML = "💖";
+    heart.style.position = "fixed";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.top = "100vh";
+    heart.style.fontSize = (15 + Math.random() * 20) + "px";
+    heart.style.pointerEvents = "none";
+    heart.style.zIndex = "9999";
+    heart.style.animation = "floatHeart 5s linear forwards";
 
-        heart.style.position = "fixed";
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.top = "100vh";
-        heart.style.fontSize = (20 + Math.random() * 25) + "px";
-        heart.style.animation = "float 5s linear forwards";
+    document.body.appendChild(heart);
 
-        document.body.appendChild(heart);
+    setTimeout(() => {
+        heart.remove();
+    }, 5000);
 
-        setTimeout(() => {
-            heart.remove();
-        }, 5000);
-
-    }, 300);
-};
+}, 350);
 
 const style = document.createElement("style");
 
 style.innerHTML = `
-@keyframes float{
+@keyframes floatHeart{
 0%{
-transform:translateY(0);
+transform:translateY(0) scale(1);
 opacity:1;
 }
 100%{
-transform:translateY(-110vh);
+transform:translateY(-110vh) scale(1.8);
 opacity:0;
 }
 }
